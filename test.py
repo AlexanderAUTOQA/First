@@ -8,20 +8,18 @@ driver = webdriver.Chrome()
 driver.implicitly_wait(10)  
 
 try:  
-    # Открываем страницу  
-    driver.get('')  
+    
+    driver.get('https://www.qa-practice.com/elements/button/simple')  
 
     
-    element = driver.find_element(By.ID, '')  
-    print(element.text)  # Работа с элементом  
-
+    element = driver.find_element(By.ID, 'submit-id-submit')  
+    print(element.text)  
       
     wait = WebDriverWait(driver, 10)   
-    button = wait.until(EC.element_to_be_clickable((By.ID, '')))  
+    button = wait.until(EC.element_to_be_clickable((By.ID, 'submit-id-submit')))  
     button.click()  
 
-    # Пример ожидания, пока элемент не станет видимым  
-    # wait.until(EC.visibility_of_element_located((By.CLASS_NAME, '')))  
+    wait.until(EC.visibility_of_element_located((By.CLASS_NAME, 'btn btn-primary')))  
 
 finally:  
     driver.quit()  
