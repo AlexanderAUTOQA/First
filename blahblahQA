@@ -1,0 +1,41 @@
+import time  
+import pytest  
+from selenium import webdriver  
+from selenium.webdriver.common.by import By  
+from selenium.webdriver.chrome.service import Service  
+from selenium.webdriver.chrome.options import Options  
+import allure  
+
+@allure.feature('Example Feature')  
+@allure.story('Example Story')  
+class TestExample:  
+
+    @pytest.fixture(scope="class")  
+    def setup(self):  
+        chrome_options = Options()  
+        chrome_options.add_argument("--headless")   
+        service = Service(().install())  
+        self.driver = webdriver.Chrome(service=service, options=chrome_options)  
+        yield  
+        self.driver.quit()  
+
+    @allure.title('Open blahblah.com and verify title')  
+    @allure.severity(allure.severity_level.CRITICAL)  
+    def test_verify_title(self, setup):  
+        self.driver.get("https://blahblah.com")  
+        time.sleep(2)    
+
+         
+        assert self.driver.title == "Example Domain", "Title did not match!"  
+
+        allure.attach(self.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=allure.attachment_type.PNG)  
+
+    @allure.title('Check if element is present')  
+    @allure.severity(allure.severity_level.NORMAL)  
+    def test_check_element(self, setup):  
+        self.driver.get("https://blahblah.com")  
+        time.sleep(2)  # Ожидание загрузки страницы  
+
+          
+        element = self.driver.find_element(By.XPATH, "//h1[contains(text(), 'Example Domain')]")  
+        assert element.is_displayed(), "Element is not displayed!"
