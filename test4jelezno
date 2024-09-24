@@ -17,7 +17,7 @@ class TestSearchFunctionality(unittest.TestCase):
         driver.get("https://www.wikipedia.org/")  
         
         search_box = driver.find_element(By.NAME, "search")  
-        search_query = "Selenium"  
+        search_query = "Apple"  
         search_box.send_keys(search_query)  
         search_box.send_keys(Keys.RETURN)  
 
