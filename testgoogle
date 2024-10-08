@@ -1,0 +1,43 @@
+from selenium import webdriver  
+from selenium.webdriver.common.by import By  
+from selenium.webdriver.common.keys import Keys  
+import time  
+
+class GoogleSearchPage:  
+    def __init__(self, driver):  
+        self.driver = driver  
+        self.search_box = (By.NAME, 'q')  
+        self.results = (By.CSS_SELECTOR, 'h3')  
+
+    def search(self, query):  
+        search_element = self.driver.find_element(*self.search_box)  
+        search_element.send_keys(query)  
+        search_element.send_keys(Keys.RETURN)  
+
+    def get_results(self):  
+        time.sleep(2)  # ожидание загрузки результатов  
+        return self.driver.find_elements(*self.results)  
+
+class TestGoogleSearch:  
+    def setup_method(self):  
+        self.driver = webdriver.Chrome()  # или ваш драйвер  
+        self.driver.get('https://www.google.com')  
+        self.driver.implicitly_wait(10)  
+        self.google_search_page = GoogleSearchPage(self.driver)  
+
+    def teardown_method(self):  
+        self.driver.quit()  
+
+    def test_search_python(self):  
+        self.google_search_page.search('Python')  
+        results = self.google_search_page.get_results()  
+        assert len(results) > 0, 'No search results found!'  
+        print("Test passed: Found results for 'Python'.")  
+
+if __name__ == '__main__':  
+    test = TestGoogleSearch()  
+    test.setup_method()  
+    try:  
+        test.test_search_python()  
+    finally:  
+        test.teardown_method()
