@@ -15,12 +15,12 @@ class GoogleSearchPage:
         search_element.send_keys(Keys.RETURN)  
 
     def get_results(self):  
-        time.sleep(2)  # ожидание загрузки результатов  
+        time.sleep(2)  
         return self.driver.find_elements(*self.results)  
 
 class TestGoogleSearch:  
     def setup_method(self):  
-        self.driver = webdriver.Chrome()  # или ваш драйвер  
+        self.driver = webdriver.Chrome()  
         self.driver.get('https://www.google.com')  
         self.driver.implicitly_wait(10)  
         self.google_search_page = GoogleSearchPage(self.driver)  
